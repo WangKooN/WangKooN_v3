@@ -207,58 +207,57 @@ showSubData(xmlPath[1],1); // 포트폴리오 - 디자인 로드
 
 function showSubData(path,con){
 
-    xmlData[con] = new Array(6);
-    
-    for ( var i = 0 ; i < xmlData[con].length ; i++){
-        xmlData[con][i] = [];
-    }
+	xmlData[con] = new Array(6);
 
-    $.ajax({
-        url: path,
-        dataType: "xml",
-        success: function(data){
-        	
-        	$("item", data).each(function(e){
-        	
-        		xmlData[con][0].push($(this).find("title").text()); // 타이틀
-        		xmlData[con][1].push($(this).find("imgData1").text()); // 작은 이미지
-                xmlData[con][2].push($(this).find("imgData2").text()); // 큰 이미지
-                xmlData[con][3].push($(this).find("link").text()); // 페이지 링크
-                xmlData[con][4].push($(this).find("description").text()); // 페이지 정보
+	for ( var i = 0 ; i < xmlData[con].length ; i++){
+		xmlData[con][i] = [];
+	}
 
-                // 포트폴리오 설명 XML데이터 유무 판단
-                if( $(this).find("description2").text() === "" || $(this).find("description2").text() === null ){
-                	xmlData[con][5].push($(this).find("description").text()); // 페이지 정보
-                }else{
-                	xmlData[con][5].push($(this).find("description2").text()); // 페이지 정보
-                }
+	$.ajax({
+		url: path,
+		dataType: "xml",
+		success: function(data){
 
-                // 한줄 데이터의 줄바꿈을 위한 치환
-                desTemp = xmlData[con][4][e].replace(/::/g,"<br/>");
+			$("item", data).each(function(e){
+				xmlData[con][0].push($(this).find("title").text()); // 타이틀
+				xmlData[con][1].push($(this).find("imgData1").text()); // 작은 이미지
+				xmlData[con][2].push($(this).find("imgData2").text()); // 큰 이미지
+				xmlData[con][3].push($(this).find("link").text()); // 페이지 링크
+				xmlData[con][4].push($(this).find("description").text()); // 페이지 정보
 
-                // 포트폴리오 메인 데이터 뿌리기
-                $(".portfolio_con").eq(con).find(".portfolioList").append('<li>'
-				+ '<div class="conArea">'
-				+ '	<span class="portImg"><img src="'+xmlData[con][1][e]+'" alt="" /></span>'
-				+ '	<a class="btnExtMenu"><img src="images/btnPortfolioExt.png" alt="" /></a>'
-				+ '</div>'
-				+ '<p class="conTit">'+xmlData[con][0][e]+'</p>'
-				// + '<p class="conTools">'+xmlData[con][4][e]+'</p>'
-				+ '<p class="conTools">'+desTemp+'</p>'
-				+ '<a href="'+xmlData[con][3][e]+'" class="btnGoSite" target="_blank"><img src="images/btnPortfolio'+(con+1)+'.gif" alt="" /></a>'
-				+ '</li>');
-				
+				// 포트폴리오 설명 XML데이터 유무 판단
+				if( $(this).find("description2").text() === "" || $(this).find("description2").text() === null ){
+					xmlData[con][5].push($(this).find("description").text()); // 페이지 정보
+				}else{
+					xmlData[con][5].push($(this).find("description2").text()); // 페이지 정보
+				}
+
+				// 한줄 데이터의 줄바꿈을 위한 치환
+				desTemp = xmlData[con][4][e].replace(/::/g,"<br/>");
+
+				// 포트폴리오 메인 데이터 뿌리기
+				$(".portfolio_con").eq(con).find(".portfolioList").append('<li>'
+					+ '<div class="conArea">'
+					+ '	<span class="portImg"><img src="'+xmlData[con][1][e]+'" alt="" /></span>'
+					+ '	<a class="btnExtMenu"><img src="images/btnPortfolioExt.png" alt="" /></a>'
+					+ '</div>'
+					+ '<p class="conTit">'+xmlData[con][0][e]+'</p>'
+					// + '<p class="conTools">'+xmlData[con][4][e]+'</p>'
+					+ '<p class="conTools">'+desTemp+'</p>'
+					+ '<a href="'+xmlData[con][3][e]+'" class="btnGoSite" target="_blank"><img src="images/btnPortfolio'+(con+1)+'.gif" alt="" /></a>'
+					+ '</li>');
+
 				$(".portfolio_con").eq(con).find(".portfolioList").find(".btnExtMenu").eq(e).click(function(){showLayer(".portfolioExt:eq("+con+")","show",e);});
-            
-            });
+
+			});
 
 			makePageList(con);
-        
-        },
-        complete:function(){
-            //console.log(xmlData)
-        }
-    });
+
+		},
+		complete:function(){
+		//console.log(xmlData)
+		}
+	});
 }
 
 // 포트폴리오 자세히 보기
