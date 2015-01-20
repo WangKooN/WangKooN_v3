@@ -1,0 +1,32 @@
+/* HTML5 (normalize.css) */
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary {display: block;}
+audio,canvas,video {display: inline-block;*display: inline;*zoom: 1;}
+time {display:inline;}
+audio:not([controls]) {display: none;height: 0;}
+
+/* Reset */
+html, body {width:100%; height:100%; min-width:980px;}
+html, body, h1, h2, h3, h4, h5, h6, div, p, blockquote, pre, address,ul, ol, li, dl, dt, dd, caption, form, fieldset, legend, input {margin:0;padding:0;}
+h1, h2, h3, h4, h5, h6 {font-weight:normal; font-size:100%;}
+ul, ol {list-style:none;}
+table {border-collapse:collapse; border-spacing:0; table-layout:fixed;}
+caption, th {text-align:left;}
+img, fieldset, abbr, acronym {border:0;}
+img{-ms-interpolation-mode:bicubic;}
+address, caption, cite, code, dfn, em, strong, th, var {font-style:normal; font-weight:normal;}
+
+/* Base */
+body {background-color:#fff; color:#333; font:12px/14px Dotum, '돋움', Tahoma, sans-serif;}
+a {color:#333; text-decoration:none; outline:0;}
+a:focus, a:hover, a:active {text-decoration:none;}
+img {vertical-align:top;}
+textarea, input, select, button {vertical-align:middle; font:12px Dotum, '돋움', Tahoma, sans-serif;}
+caption, legend, hr {display:none;}
+input.txt {padding:3px 5px 0; border:1px solid #B7B7B7; font-size:11px;}
+input.cbox {width:13px; height:13px; vertical-align:top;}
+label {cursor:pointer;}
+div.clear {clear:both;}
+
+/* add Init */
+.blind{visibility:hidden;overflow:hidden;position:absolute;top:0;left:0;width:0;height:0;font-size:0;line-height:0}
+.nowrap{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis}
