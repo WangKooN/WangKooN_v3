@@ -12,6 +12,7 @@
 //"use strict";
 
 var isView = 0; // 현재 내가 보고 있는 인덱스
+var mvSta = false; // 스크롤이 움직이고 있는지 여부
 
 $(document).ready(function(){pageResizing();});
 $(window).resize(function(){pageResizing();});
@@ -28,6 +29,7 @@ $(window).load(function(){
 		}
 	);
 
+	mainScrollCtrl(); // 메인 상하 스크롤 컨트롤러
 	addSideMenu(); // 우측메뉴 생성, 포지셔닝
 	showSideMenu(); // 우측 메뉴 버튼 활성화
 	mainVisual(); // 인트로 에니메이션 실행
@@ -50,6 +52,7 @@ $(window).scroll(function(){
 
 	}
 
+	// 스킬 페이지 스크롤 모션
 	var nowPos2 = $(window).scrollTop() - $(".conBox").eq(4).offset().top ;
 	if ( nowPos2 > 0 ) nowPos2 = -nowPos2;
 	var resumeOpacity2 = (nowPos2 + $(window).height() / 2) / ($(window).height() / 2) - 0.2;
@@ -73,6 +76,32 @@ $(window).scroll(function(){
 	showSideMenu();
 	
 });
+
+function mainScrollCtrl(){
+
+	$("body,html").on("mousewheel.disableScroll DOMMouseScroll.disableScroll touchmove.disableScroll", function(e) {
+		e.preventDefault();
+		return;
+	}).on("mousewheel",function(e){
+		if( !mvSta ){
+			if( e.originalEvent.wheelDelta / 120 > 0 ){ // Scroll Up Event
+				if ( isView !== 0 ){
+					mvSta = true;
+					$("body,html").stop().animate({scrollTop: $("#wrapper .conBox").eq(--isView).offset().top},700,function(){
+						mvSta = false;
+					});
+				}
+			}else{ // Scroll Down Event
+				if ( isView < $(".conBox").length-1 ){
+					mvSta = true;
+					$("body,html").stop().animate({scrollTop: $("#wrapper .conBox").eq(++isView).offset().top},700,function(){
+						mvSta = false;
+					});
+				}
+			}			
+		}
+	});
+}
 
 // 인트로 애니메이션
 function mainVisual(){
@@ -143,9 +172,10 @@ function mainVisual(){
 }
 
 // 사이드 메뉴 
-var sideBgColor = ["#dd1c52","#39aed9","#6239d9","#e8681a","#89b416","#696969"];
-var sideTit = ["INTRO","RESUME","PUBLISHING","DESIGN","SKILLS","BOARD"];
 function addSideMenu(){
+
+	var sideBgColor = ["#dd1c52","#39aed9","#6239d9","#e8681a","#89b416","#696969"];
+	var sideTit = ["INTRO","RESUME","PUBLISHING","DESIGN","SKILLS","BOARD"];
 
 	$("#wrapper .conBox").each(
 		function(e){			
@@ -194,6 +224,9 @@ function pageResizing(){
 	// 포트폴리오 박스 내 페이지 새로고침
 	makePageList(0);
 	makePageList(1);
+
+	// 페이지 리사이징 시 애매한 위치에 서는것 방지
+	$("html,body").stop(true,true).animate({scrollTop:$("#wrapper .conBox").eq(isView).offset().top},0);
 
 }
 
@@ -343,6 +376,10 @@ function pfScrollCtrl(){
 			}
 
 		}
+	}).hover(function(){
+		mvSta = true;
+	},function(){
+		mvSta = false;
 	});
 
 	// 
@@ -353,7 +390,7 @@ function pfScrollCtrl(){
 }
 
 var skillsPos = []; //new Array();
-function skillPageCtrl(){
+function skillPageCtrl(){	
 
 	$(".skills_con").find("li").each(
 		function(e){
